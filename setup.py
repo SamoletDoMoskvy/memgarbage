@@ -1,6 +1,6 @@
-# THAT CODE WRITTEN BY RUSNYA
 import models as db
 import re
+from download import client
 
 
 def get_group():
@@ -15,6 +15,11 @@ def add_group(group_list=get_group()):
     output = 'Updated:\n'
     c = 1
     for groups in group_list:
+        try:
+            client.get_messages(groups, limit=1)
+        except:
+            print('The ' + groups + ' does not exists!')
+            continue
         if db.SESSION.query(db.exists().where(db.Group.name == groups)).scalar():
             continue
         else:
@@ -30,4 +35,3 @@ def add_group(group_list=get_group()):
         print(output)
     else:
         print(output)
-
