@@ -10,6 +10,6 @@ def command(command):
 command('clear')
 
 setup.add_group()
-print('Downloading videos...')
+print('Downloading:')
 command('sleep 1.5')
 download.get_video()
