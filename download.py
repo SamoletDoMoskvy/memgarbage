@@ -1,18 +1,20 @@
+from sqlalchemy import exists
 from telethon.sync import TelegramClient, events
 import models as db
+import os, os.path
 
 # API & SESSION#
-api_id = None
-api_hash = ''
+from settings import MAX_DURATION, MESSAGES_PER_CYCLE
+
+api_id = 8485098
+api_hash = 'cc19e8236773b9c6178ca92ae5310cc9'
 
 client = TelegramClient('session_name', api_id, api_hash)
 client.start()
 
-print(client.get_me().first_name + ' ' + client.get_me().last_name)
 
-
-def exists(required):
-    return db.SESSION.query(db.exists().where(db.Video.document_id == required)).scalar()
+def is_exists(required):
+    return db.SESSION.query(exists().where(db.Video.document_id == required)).scalar()
 
 
 def get_groups():
@@ -26,21 +28,21 @@ def get_groups():
 
 def get_video(groups=get_groups()):
     for group in groups:
-        messages = client.get_messages(group, limit=1)
+        messages = client.get_messages(group, limit=MESSAGES_PER_CYCLE)
         for message in messages:
             if message.media is not None:
                 try:
                     message.media.document.id
                     duration = message.file.duration
-                    if duration <= 60:
+                    if duration <= MAX_DURATION:
                         document_id = message.media.document.id
-                        check = exists(document_id)
+                        check = is_exists(document_id)
                         if not check:
                             video = db.Video(
                                 document_id=document_id,
                                 group=group
                             )
-                            print('')
+                            print('     ' + group + ' ' + str(document_id))
                             db.SESSION.add(video)
                             db.SESSION.commit()
                             path = './downloads/{}/{}'.format(group, document_id)

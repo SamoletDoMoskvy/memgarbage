@@ -1,6 +1,8 @@
+from sqlalchemy import exists
 import models as db
 import re
 from download import client
+import warnings
 
 
 def get_group():
@@ -16,12 +18,14 @@ def add_group(group_list=get_group()):
     c = 1
     for groups in group_list:
         try:
-            client.get_messages(groups, limit=1)
-        except:
-            print('The ' + groups + ' does not exists!')
+            last_msg = client.get_messages(groups, limit=1)
+        except Exception as ex:
+            warnings.warn(f'The {groups} does not exists!')
             continue
-        if db.SESSION.query(db.exists().where(db.Group.name == groups)).scalar():
+
+        if db.SESSION.query(exists().where(db.Group.name == groups)).scalar():
             continue
+
         else:
             group = db.Group(
                 name=groups

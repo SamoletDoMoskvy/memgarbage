@@ -8,6 +8,10 @@ def command(command):
 
 
 command('clear')
+try:
+    print('Telegram User:\n     ' + download.client.get_me().first_name + ' ' + download.client.get_me().last_name)
+except Exception as ex:
+    print('Telegram User:\n     ' + download.client.get_me().first_name)
 
 setup.add_group()
 print('Downloading:')

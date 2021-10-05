@@ -1,7 +1,7 @@
 from sqlalchemy import Table, Column, Integer, String, DateTime, \
-    MetaData, ForeignKey, select, create_engine, exists, \
+    MetaData, ForeignKey, select, create_engine, \
     PrimaryKeyConstraint, UniqueConstraint, \
-    ForeignKeyConstraint
+    ForeignKeyConstraint, Boolean
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import Session, relationship
 from datetime import datetime
@@ -32,7 +32,7 @@ class Video(BASE):
     document_id = Column(Integer, nullable=False, unique=True)
     group = Column(String, ForeignKey("groups.name"))
     created_on = Column(DateTime, default=datetime.now)
-
+    already_used = Column(Boolean, default=False)
 
 class Group(BASE):
     __tablename__ = 'groups'

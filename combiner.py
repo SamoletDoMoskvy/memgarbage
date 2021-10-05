@@ -1,3 +1,20 @@
+"""
+    🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀
+    🌀👌👌👌👌👌👌👌👌👌👌👌👌👌👌👌👌👌👌👌👌🌀
+    🌀                                 🌀
+    🌀written by CIBM on 5 october 2021🌀
+    🌀            ABOBA                🌀
+    🌀                                 🌀
+    🌀import me                        🌀
+    🌀import your_mother               🌀
+    🌀                                 🌀
+    🌀your_mother.suck(obj=me.my_dick) 🌀
+    🌀                                 🌀
+    🌀👌👌👌👌👌👌👌👌👌👌👌👌👌👌👌👌👌👌👌👌🌀
+    🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀
+"""
+
+
 import datetime
 import time
 import pathlib
@@ -21,7 +38,9 @@ generated_folder = pathlib.Path.cwd() / "generatedVideos"
 if not generated_folder.exists():
     generated_folder.mkdir()
 
-shum = VideoFileClip(str(downloads_folder.parent / "shum.mp4")).fx(vfx.speedx, 0.2)
+
+shum = VideoFileClip(str(downloads_folder.parent / "shum.mp4")).fx(vfx.speedx, 4)
+
 
 while True:
     result = None
@@ -35,10 +54,11 @@ while True:
                 except OSError:
                     continue
 
-                if counter >= VIDEOS_QUANTITY:
+                if counter + 1 >= VIDEOS_QUANTITY:
                     # в данном случае видео готово и его нужно сохранить
                     result.write_videofile(str(generated_folder / f"{datetime.datetime.now()}.mp4"))
                     result = None
+                    counter = 0
                     continue
 
                 if not result:
@@ -52,5 +72,3 @@ while True:
     else:
         time.sleep(5)
 
-
-# write_videofile("myHolidays_edited.webm",fps=25)

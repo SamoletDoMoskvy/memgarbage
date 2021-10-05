@@ -5,4 +5,4 @@ MAX_DURATION = 60
 MESSAGES_PER_CYCLE = 100
 
 #  кол-во видосов в одной склейке
-VIDEOS_QUANTITY = 3
+VIDEOS_QUANTITY = 10
