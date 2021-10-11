@@ -3,6 +3,7 @@ import google_auth_oauthlib.flow
 import googleapiclient.discovery
 import googleapiclient.errors
 from django_cron import CronJobBase, Schedule
+from google import auth
 from googleapiclient.http import MediaFileUpload
 import pathlib
 import time
@@ -22,8 +23,10 @@ def main():
     client_secrets_file = "client_secret.json"
 
     # Get credentials and create an API client
+    # TODO Cron дропается на 27 строчке кода, ничего не возвращает
     flow = google_auth_oauthlib.flow.InstalledAppFlow.from_client_secrets_file(
         client_secrets_file, scopes)
+    print(flow)
     credentials = flow.run_console()
     youtube = googleapiclient.discovery.build(
         api_service_name, api_version, credentials=credentials)
