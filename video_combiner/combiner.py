@@ -3,12 +3,18 @@ from django.conf import settings
 from video_downloader.models import Video
 from django.conf import settings
 from moviepy.editor import *
-import datetime
 import pathlib
+import datetime
 import time
 
+VIDEOS_QUANTITY = settings.VIDEOS_QUANTITY
+
+
+# TODO Добавить функционал записи в БД в comb()
 
 def comb():
+    if len(Video.objects.filter(already_used=0)) < VIDEOS_QUANTITY:
+        return 0
     downloads_folder = pathlib.Path.cwd() / "downloads"
     generated_folder = pathlib.Path.cwd() / "generatedVideos"
     shum = VideoFileClip(str(downloads_folder.parent / "shum.mp4")).fx(vfx.speedx, 4)
@@ -61,5 +67,8 @@ class CronCombiner(CronJobBase):
 
     def do(self):
         print(f"CronCombiner started at {time.strftime('%D %H:%M:%S')}\n")
-        comb()
+        if comb() == 0:
+            print('There are currently not enough videos to combine')
+        else:
+            comb()
         print(f"\nCronDownloader finished at {time.strftime('%D %H:%M:%S')}")

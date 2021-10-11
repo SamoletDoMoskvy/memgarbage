@@ -17,5 +17,5 @@ class Video(models.Model):
     already_used = models.BooleanField(default=False)
     dt = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
-        return self.name
+    # def __str__(self):
+    #     return self.name

@@ -1,13 +1,12 @@
 from django_cron import CronJobBase, Schedule
 from django.conf import settings
 from video_downloader.models import Group, Video
-from telethon.sync import TelegramClient, events
-import time
+from telethon.sync import TelegramClient  # events
 import warnings
+import time
 import re
 
-# TODO Переместить инициализацию клиента
-# Импорт переменных для работы механизмов скрипта из settings.py
+# Import of variables for the operation of script mechanisms from settings.py
 MAX_DURATION, MESSAGES_PER_CYCLE = settings.MAX_DURATION, settings.MESSAGES_PER_CYCLE
 API_ID, API_HASH = settings.API_ID, settings.API_HASH
 client = TelegramClient('session_name', API_ID, API_HASH)
@@ -15,14 +14,24 @@ client.start()
 
 
 def get_group():
-    file = open('/home/sdm/Scripts/Python/Django/Memgarbage/bullshitlist.txt', 'r')
+    """Get groups from user file
+    return: list of groups (@group1, @group2, ...) """
+
+    # TODO обернуть file = open(path) в метод pathlib, чтобы избавиться от абсолютного пути
+
+    file = open('/home/sdm/Scripts/Python/Django/Memgarbage/@groups.txt', 'r')
     group_list = []
     for row in file:
         group_list.append(re.sub(r'[!:$]+\s?', '', row).strip())
     return group_list
 
 
-def add_group(group_list=get_group()):
+def add_group(group_list=None):
+    """Adding groups from a user file to the database
+    last_msg = client.get_message() -- checking for the existence of a group"""
+
+    if group_list is None:
+        group_list = get_group()
     output = '  Updated:\n'
     c = 1
     for groups in group_list:
@@ -36,7 +45,7 @@ def add_group(group_list=get_group()):
                 name=groups
             )
             group.save()
-        output += '     '+str(c) + ') ' + groups + '\n'
+        output += '     ' + str(c) + ') ' + groups + '\n'
         c += 1
     if c == 1:
         output = 'DB is ready'
@@ -46,21 +55,28 @@ def add_group(group_list=get_group()):
 
 
 def is_exists(required):
+    """Checking for the existence of a video in the database
+    return: True/False"""
+
     return bool(len(Video.objects.filter(document_id=required)))
 
 
 def get_groups():
+    """Get groups from database
+    return: list of groups from database (@group1, @group2, ...)"""
     group = [group.name for group in Group.objects.all()]
     return group
 
 
-def get_video(groups=get_groups()):
+def get_video(groups=None):
+    if groups is None:
+        groups = get_groups()
     for group in groups:
         messages = client.get_messages(group, limit=MESSAGES_PER_CYCLE)
         for message in messages:
             if message.media is not None:
                 try:
-                    message.media.document.id
+                    # message.media.document.id
                     duration = message.file.duration
                     if duration <= MAX_DURATION:
                         document_id = message.media.document.id
