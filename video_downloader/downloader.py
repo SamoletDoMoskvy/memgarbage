@@ -1,6 +1,6 @@
 from django_cron import CronJobBase, Schedule
 from django.conf import settings
-from downloader.models import Group, Video
+from video_downloader.models import Group, Video
 from telethon.sync import TelegramClient, events
 import time
 import warnings
@@ -86,7 +86,7 @@ class CronDownloader(CronJobBase):
     MIN_NUM_FAILURES = 3
     ALLOW_PARALLEL_RUNS = True
     schedule = Schedule(run_every_mins=RUN_EVERY_MINS)
-    code = 'downloader.CronDownloader'
+    code = 'video_downloader.CronDownloader'
 
     def do(self):
         print(f"CronDownloader started at {time.strftime('%D %H:%M:%S')}\n")

@@ -36,8 +36,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'downloader',
+    'video_downloader',
     'youtube_uploader',
+    'video_combiner',
     'django_cron',
 ]
 
@@ -52,7 +53,8 @@ MIDDLEWARE = [
 ]
 
 CRON_CLASSES = [
-    'downloader.video_downloader.CronDownloader',
+    'video_downloader.downloader.CronDownloader',
+    'video_combiner.combiner.CronCombiner'
 ]
 DJANGO_CRON_MULTITHREADED = True
 
@@ -136,10 +138,10 @@ MAX_DURATION = 60
 MESSAGES_PER_CYCLE = 1
 
 # Quantity of videos in combination
-VIDEOS_QUANTITY = 10
+VIDEOS_QUANTITY = 3
 
 # API_ID for telethon session TelegramClient
-API_ID =
+API_ID = 8485098
 
 # API_HASH for telethon session TelegramClient
-API_HASH = ''
+API_HASH = 'cc19e8236773b9c6178ca92ae5310cc9'

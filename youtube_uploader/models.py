@@ -1,5 +1,5 @@
 from django.db import models
-from downloader.models import Video
+from video_downloader.models import Video
 
 
 class Upload(models.Model):
