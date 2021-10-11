@@ -1,6 +1,7 @@
 from django_cron import CronJobBase, Schedule
 from django.conf import settings
 from video_downloader.models import Video
+from video_combiner.models import Combined
 from django.conf import settings
 from moviepy.editor import *
 import pathlib
@@ -48,10 +49,14 @@ def comb():
 
                         if not result:
                             result = concatenate_videoclips([video, shum], method="compose")
+                            combined = Combined()
+                            combined.save()
                             counter += 1
 
                         elif result:
                             result = concatenate_videoclips([result, video, shum], method="compose")
+                            combined = Combined()
+                            combined.save()
                             counter += 1
 
         else:

@@ -141,7 +141,7 @@ MESSAGES_PER_CYCLE = 1
 VIDEOS_QUANTITY = 3
 
 # API_ID for telethon session TelegramClient
-API_ID = 8485098
+API_ID =
 
 # API_HASH for telethon session TelegramClient
-API_HASH = 'cc19e8236773b9c6178ca92ae5310cc9'
+API_HASH = ''

@@ -1,5 +1,7 @@
 from django.contrib import admin
+from .models import Combined
 
-# TODO Добавить модели в админ панель
+
+admin.site.register(Combined)
 
 

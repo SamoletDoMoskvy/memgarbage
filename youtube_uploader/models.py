@@ -2,7 +2,7 @@ from django.db import models
 from video_combiner.models import Combined
 
 
-class Upload(models.Model):
+class Video(models.Model):
     name = models.OneToOneField(Combined,
                                 on_delete=models.CASCADE,
                                 related_name='uploads')
