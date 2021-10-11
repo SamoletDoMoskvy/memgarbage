@@ -1,7 +1,7 @@
 from django_cron import CronJobBase, Schedule
 from django.conf import settings
 from video_downloader.models import Video
-from video_combiner.models import Combined
+from video_combiner.models import YoutubeCombined
 from django.conf import settings
 from moviepy.editor import *
 import pathlib
@@ -11,14 +11,12 @@ import time
 VIDEOS_QUANTITY = settings.VIDEOS_QUANTITY
 
 
-# TODO Добавить функционал записи в БД в comb()
-
-def comb():
+def youtube_combiner():
     if len(Video.objects.filter(already_used=0)) < VIDEOS_QUANTITY:
         return 0
     downloads_folder = pathlib.Path.cwd() / "downloads"
     generated_folder = pathlib.Path.cwd() / "generatedVideos"
-    shum = VideoFileClip(str(downloads_folder.parent / "shum.mp4")).fx(vfx.speedx, 4)
+    transition = VideoFileClip(str(downloads_folder.parent / "shum.mp4")).fx(vfx.speedx, 4)
 
     if not generated_folder.exists():
         generated_folder.mkdir()
@@ -48,15 +46,19 @@ def comb():
                             continue
 
                         if not result:
-                            result = concatenate_videoclips([video, shum], method="compose")
-                            combined = Combined()
-                            combined.save()
+                            result = concatenate_videoclips([video, transition], method="compose")
+                            combined_video = YoutubeCombined(
+                                            name=f"combined_video{len(YoutubeCombined.objects.all())+1}"
+                            )
+                            combined_video.save()
                             counter += 1
 
                         elif result:
-                            result = concatenate_videoclips([result, video, shum], method="compose")
-                            combined = Combined()
-                            combined.save()
+                            result = concatenate_videoclips([result, video, transition], method="compose")
+                            combined_video = YoutubeCombined(
+                                            name=f"combined_video{len(YoutubeCombined.objects.all())+1}"
+                            )
+                            combined_video.save()
                             counter += 1
 
         else:
@@ -72,8 +74,8 @@ class CronCombiner(CronJobBase):
 
     def do(self):
         print(f"CronCombiner started at {time.strftime('%D %H:%M:%S')}\n")
-        if comb() == 0:
+        if youtube_combiner() == 0:
             print('There are currently not enough videos to combine')
         else:
-            comb()
+            youtube_combiner()
         print(f"\nCronDownloader finished at {time.strftime('%D %H:%M:%S')}")

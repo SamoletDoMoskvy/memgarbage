@@ -1,7 +1,7 @@
 from django.contrib import admin
-from .models import Combined
+from .models import YoutubeCombined
 
 
-admin.site.register(Combined)
+admin.site.register(YoutubeCombined)
 
 
