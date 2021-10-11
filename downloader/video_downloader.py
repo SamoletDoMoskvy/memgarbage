@@ -2,14 +2,14 @@ from django_cron import CronJobBase, Schedule
 from django.conf import settings
 from downloader.models import Group, Video
 from telethon.sync import TelegramClient, events
+import time
 import warnings
 import re
 
-
+# TODO Переместить инициализацию клиента
 # Импорт переменных для работы механизмов скрипта из settings.py
 MAX_DURATION, MESSAGES_PER_CYCLE = settings.MAX_DURATION, settings.MESSAGES_PER_CYCLE
 API_ID, API_HASH = settings.API_ID, settings.API_HASH
-# TODO Переместить инициализацию клиента
 client = TelegramClient('session_name', API_ID, API_HASH)
 client.start()
 
@@ -23,7 +23,7 @@ def get_group():
 
 
 def add_group(group_list=get_group()):
-    output = 'Updated:\n'
+    output = '  Updated:\n'
     c = 1
     for groups in group_list:
         try:
@@ -36,7 +36,7 @@ def add_group(group_list=get_group()):
                 name=groups
             )
             group.save()
-        output += str(c) + ') ' + groups + '\n'
+        output += '     '+str(c) + ') ' + groups + '\n'
         c += 1
     if c == 1:
         output = 'DB is ready'
@@ -64,13 +64,14 @@ def get_video(groups=get_groups()):
                     duration = message.file.duration
                     if duration <= MAX_DURATION:
                         document_id = message.media.document.id
+                        is_exists(document_id)
                         check = is_exists(document_id)
                         if not check:
                             download = Video(
                                 document_id=document_id,
                                 group=Group.objects.get(name=group),
                             )
-                            print(str(group) + ' ' + str(document_id))
+                            print('     ' + str(group) + ' ' + str(document_id))
                             download.save()
                             path = './downloads/{}/{}'.format(group, document_id)
                             client.download_media(message=message, file=path)
@@ -80,14 +81,16 @@ def get_video(groups=get_groups()):
                     continue
 
 
-class MyCronJob(CronJobBase):
+class CronDownloader(CronJobBase):
     RUN_EVERY_MINS = 1
     MIN_NUM_FAILURES = 3
     ALLOW_PARALLEL_RUNS = True
     schedule = Schedule(run_every_mins=RUN_EVERY_MINS)
-    code = 'downloader.MyCronJob'
+    code = 'downloader.CronDownloader'
 
     def do(self):
+        print(f"CronDownloader started at {time.strftime('%D %H:%M:%S')}\n")
         add_group()
+        print(' Downloading:')
         get_video()
-        print("Cron running!")
+        print(f"\nCronDownloader finished at {time.strftime('%D %H:%M:%S')}")

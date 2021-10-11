@@ -52,7 +52,7 @@ MIDDLEWARE = [
 ]
 
 CRON_CLASSES = [
-    'downloader.video_downloader.MyCronJob',
+    'downloader.video_downloader.CronDownloader',
 ]
 DJANGO_CRON_MULTITHREADED = True
 
@@ -133,7 +133,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MAX_DURATION = 60
 
 # Max quantity of messages per one loop pass
-MESSAGES_PER_CYCLE = 3
+MESSAGES_PER_CYCLE = 1
 
 # Quantity of videos in combination
 VIDEOS_QUANTITY = 10
