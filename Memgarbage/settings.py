@@ -36,8 +36,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'download',
-    'youtube_upload',
+    'downloader',
+    'youtube_uploader',
     'django_cron',
 ]
 
@@ -52,7 +52,7 @@ MIDDLEWARE = [
 ]
 
 CRON_CLASSES = [
-    'download.video_downloader.MyCronJob',
+    'downloader.video_downloader.MyCronJob',
 ]
 DJANGO_CRON_MULTITHREADED = True
 
@@ -133,7 +133,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MAX_DURATION = 60
 
 # Max quantity of messages per one loop pass
-MESSAGES_PER_CYCLE = 100
+MESSAGES_PER_CYCLE = 3
 
 # Quantity of videos in combination
 VIDEOS_QUANTITY = 10

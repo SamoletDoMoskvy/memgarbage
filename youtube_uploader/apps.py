@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class DownloadConfig(AppConfig):
+class YoutubeUploadConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'download'
+    name = 'youtube_uploader'
