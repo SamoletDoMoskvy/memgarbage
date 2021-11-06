@@ -6,8 +6,8 @@ import os, os.path
 # API & SESSION#
 from settings import MAX_DURATION, MESSAGES_PER_CYCLE
 
-api_id = 8485098
-api_hash = 'cc19e8236773b9c6178ca92ae5310cc9'
+api_id =
+api_hash = ''
 
 client = TelegramClient('session_name', api_id, api_hash)
 client.start()
