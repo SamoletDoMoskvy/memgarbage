@@ -54,7 +54,8 @@ MIDDLEWARE = [
 
 CRON_CLASSES = [
     'video_downloader.downloader.CronDownloader',
-    'video_combiner.combiner.CronCombiner'
+    'video_combiner.combiner.CronCombiner',
+    'youtube_uploader.video_uploader.CronYoutubeUploader',
 ]
 DJANGO_CRON_MULTITHREADED = True
 

@@ -40,7 +40,7 @@ def youtube_combiner():
 
                         if counter + 1 >= settings.VIDEOS_QUANTITY:
                             # в данном случае видео готово и его нужно сохранить
-                            result.write_videofile(str(generated_folder / f"{datetime.datetime.now()}.mp4"))
+                            result.write_videofile(str(generated_folder / f"combined_video{len(YoutubeCombined.objects.all())}.mp4"))
                             result = None
                             counter = 0
                             continue
