@@ -1,20 +1,3 @@
-"""
-    🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀
-    🌀👌👌👌👌👌👌👌👌👌👌👌👌👌👌👌👌👌👌👌👌🌀
-    🌀                                 🌀
-    🌀written by CIBM on 5 october 2021🌀
-    🌀            ABOBA                🌀
-    🌀                                 🌀
-    🌀import me                        🌀
-    🌀import your_mother               🌀
-    🌀                                 🌀
-    🌀your_mother.suck(obj=me.my_dick) 🌀
-    🌀                                 🌀
-    🌀👌👌👌👌👌👌👌👌👌👌👌👌👌👌👌👌👌👌👌👌🌀
-    🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀🌀
-"""
-
-
 import datetime
 import time
 import pathlib
